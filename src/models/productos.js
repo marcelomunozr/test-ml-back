@@ -1,8 +1,8 @@
 const axios = require('axios');
 
-const searchProducts = async ({ value }) => (
+const searchProducts = async ({ query }) => (
     axios
-        .get(`search?q=${value}`)
+        .get(`search?q=${query}&limit=4`)
         .then((response) => {
             const { data } = response;
             return data;
