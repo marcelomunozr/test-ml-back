@@ -12,7 +12,12 @@ const author = {
     lastname: 'Muñoz',
 };
 
-const getCategories = ({ filters }) => filters.lenght && filters[0].values[0].path_from_root;
+const getCategories = (algo) => {
+    const { filters } = algo;
+    const { values } = filters[0];
+    const { path_from_root } = values[0];
+    return path_from_root;
+};
 
 const getItems = (results) => {
     const items = results.map((item) => {

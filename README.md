@@ -3,8 +3,13 @@
 # Instalación
 - `yarn install` Instalar las dependencias
 ## Uso
+- Configurado para correr en el puerto 8080.
 - `yarn start` Levanta ambiente con node
 - `yarn dev` Levanta ambiente con nodemon para desarrollo
+
+## Acceso endpoint
+- [http://localhost:8080/api/items?q=iphone%20SE](http://localhost:8080/api/items?q=iphone%20SE) Para realizar una búsqueda
+- [http://localhost:8080/api/items/MLA905132552](http://localhost:8080/api/items/MLA905132552) Para consultar información de un producto según ID
 ## Dependencias
 - [axios](https://github.com/axios/axios)
 - [cors](https://github.com/expressjs/cors)
