@@ -7,7 +7,7 @@ const errorResponse = {
     code: '500',
 };
 
-const getCategories = (filters) => filters[0].values[0].path_from_root;
+const getCategories = ({ filters }) => filters.lenght && filters[0].values[0].path_from_root;
 
 const getItems = (results) => {
     const items = results.map((item) => {
@@ -47,8 +47,9 @@ const getItems = (results) => {
     return items;
 };
 
-const getItemResult = ({ filters, results }) => {
-    const categories = filters && getCategories(filters);
+const getItemResult = (response) => {
+    const { results } = response;
+    const categories = getCategories(response);
     const items = getItems(results);
     const objResults = {
         author: {
@@ -67,7 +68,8 @@ const getItemResult = ({ filters, results }) => {
 const searchProducts = async (req, res) => {
     res.set('Content-Type', 'application/json');
     try {
-        const response = await Productos.searchProducts(req.params);
+        const { query: { q } } = req;
+        const response = await Productos.searchProducts(q);
         if (response) {
             const result = getItemResult(response);
             return res.status(200).send(result);
@@ -78,6 +80,40 @@ const searchProducts = async (req, res) => {
     return res.status(500).send(errorResponse);
 };
 
+/**
+ * obtiene producto según ID
+ */
+const searchProduct = async (req, res) => {
+    res.set('Content-Type', 'application/json');
+    try {
+        const response = await Productos.searchProduct(req.params);
+        if (response) {
+            return res.status(200).send(response);
+        }
+    } catch (error) {
+        return res.status(500).send(errorResponse);
+    }
+    return res.status(500).send(errorResponse);
+};
+
+/**
+ * obtiene descripción del producto según ID
+ */
+const searchProductDescription = async (req, res) => {
+    res.set('Content-Type', 'application/json');
+    try {
+        const response = await Productos.searchProductDescription(req.params);
+        if (response) {
+            return res.status(200).send(response);
+        }
+    } catch (error) {
+        return res.status(500).send(errorResponse);
+    }
+    return res.status(500).send(errorResponse);
+};
+
 module.exports = {
     searchProducts,
+    searchProduct,
+    searchProductDescription,
 };

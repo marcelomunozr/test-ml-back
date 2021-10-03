@@ -1,6 +1,6 @@
 const axios = require('axios');
 
-const URL_API = 'https://api.mercadolibre.com/sites/MLA/';
+const URL_API = 'https://api.mercadolibre.com/';
 
 axios.defaults.params = {};
 
