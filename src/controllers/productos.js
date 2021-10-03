@@ -7,6 +7,11 @@ const errorResponse = {
     code: '500',
 };
 
+const author = {
+    name: 'Marcelo',
+    lastname: 'Muñoz',
+};
+
 const getCategories = ({ filters }) => filters.lenght && filters[0].values[0].path_from_root;
 
 const getItems = (results) => {
@@ -47,15 +52,12 @@ const getItems = (results) => {
     return items;
 };
 
-const getItemResult = (response) => {
+const getItemsResult = (response) => {
     const { results } = response;
     const categories = getCategories(response);
     const items = getItems(results);
     const objResults = {
-        author: {
-            name: 'Marcelo',
-            lastname: 'Muñoz',
-        },
+        author,
         categories,
         items,
     };
@@ -71,7 +73,7 @@ const searchProducts = async (req, res) => {
         const { query: { q } } = req;
         const response = await Productos.searchProducts(q);
         if (response) {
-            const result = getItemResult(response);
+            const result = getItemsResult(response);
             return res.status(200).send(result);
         }
     } catch (error) {
@@ -80,15 +82,49 @@ const searchProducts = async (req, res) => {
     return res.status(500).send(errorResponse);
 };
 
+const getSingleItem = (productInfo, productDesc) => {
+    const {
+        id,
+        title,
+        currency_id,
+        price,
+        secure_thumbnail,
+        condition,
+        shipping: { free_shipping },
+        sold_quantity,
+    } = productInfo;
+    const { plain_text } = productDesc;
+    const objItem = {
+        author,
+        item: {
+            id,
+            title,
+            price: {
+                currency: currency_id,
+                amount: price,
+                decimals: price,
+            },
+            picture: secure_thumbnail,
+            condition,
+            free_shipping,
+            sold_quantity,
+            description: plain_text,
+        },
+    };
+    return objItem;
+};
+
 /**
  * obtiene producto según ID
  */
 const searchProduct = async (req, res) => {
     res.set('Content-Type', 'application/json');
     try {
-        const response = await Productos.searchProduct(req.params);
-        if (response) {
-            return res.status(200).send(response);
+        const responseInfo = await Productos.searchProduct(req.params);
+        const responseDescription = await Productos.searchProductDescription(req.params);
+        if (responseInfo && responseDescription) {
+            const singleItem = getSingleItem(responseInfo, responseDescription);
+            return res.status(200).send(singleItem);
         }
     } catch (error) {
         return res.status(500).send(errorResponse);
