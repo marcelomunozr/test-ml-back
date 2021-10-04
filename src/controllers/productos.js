@@ -13,13 +13,12 @@ const author = {
 };
 
 const getCategories = (algo) => {
-    let categorias = [];
     const { available_filters } = algo;
     if (available_filters !== 'undefined') {
-        const { values } = available_filters[0];
-        categorias = values;
+        const valores = available_filters[0].values;
+        return valores;
     }
-    return categorias;
+    return [];
 };
 
 const getItems = (results) => {
@@ -87,6 +86,7 @@ const searchProducts = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
+    return res.status(500).send(errorResponse);
 };
 
 const getSingleItem = (productInfo, productDesc) => {
@@ -136,6 +136,7 @@ const searchProduct = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
+    return res.status(500).send(errorResponse);
 };
 
 /**
@@ -152,6 +153,7 @@ const searchProductDescription = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
+    return res.status(500).send(errorResponse);
 };
 
 module.exports = {
