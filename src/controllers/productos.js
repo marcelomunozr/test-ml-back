@@ -13,10 +13,14 @@ const author = {
 };
 
 const getCategories = (algo) => {
+    let categorias = [];
     const { filters } = algo;
-    const { values } = filters[0];
-    const { path_from_root } = values[0];
-    return path_from_root;
+    if (filters === 'undefined') {
+        const { values } = filters[0];
+        const { path_from_root } = values[0];
+        categorias = path_from_root;
+    }
+    return categorias;
 };
 
 const getItems = (results) => {
@@ -144,6 +148,7 @@ const searchProductDescription = async (req, res) => {
     res.set('Content-Type', 'application/json');
     try {
         const response = await Productos.searchProductDescription(req.params);
+        console.log(req.params);
         if (response) {
             return res.status(200).send(response);
         }
