@@ -63,7 +63,6 @@ const getItems = (results) => {
 const getItemsResult = (response) => {
     const { results } = response;
     const categories = getCategories(response);
-    console.log(categories);
     const items = getItems(results);
     const objResults = {
         author,
@@ -88,7 +87,6 @@ const searchProducts = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
-    return res.status(500).send(errorResponse);
 };
 
 const getSingleItem = (productInfo, productDesc) => {
@@ -138,7 +136,6 @@ const searchProduct = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
-    return res.status(500).send(errorResponse);
 };
 
 /**
@@ -155,7 +152,6 @@ const searchProductDescription = async (req, res) => {
     } catch (error) {
         return res.status(500).send(errorResponse);
     }
-    return res.status(500).send(errorResponse);
 };
 
 module.exports = {
