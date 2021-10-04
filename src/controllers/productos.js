@@ -14,11 +14,10 @@ const author = {
 
 const getCategories = (algo) => {
     let categorias = [];
-    const { filters } = algo;
-    if (filters === 'undefined') {
-        const { values } = filters[0];
-        const { path_from_root } = values[0];
-        categorias = path_from_root;
+    const { available_filters } = algo;
+    if (available_filters !== 'undefined') {
+        const { values } = available_filters[0];
+        categorias = values;
     }
     return categorias;
 };
@@ -64,6 +63,7 @@ const getItems = (results) => {
 const getItemsResult = (response) => {
     const { results } = response;
     const categories = getCategories(response);
+    console.log(categories);
     const items = getItems(results);
     const objResults = {
         author,
